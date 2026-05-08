@@ -37,9 +37,19 @@ locations <- data_thu_trans |>
 locations_sf <- st_as_sf(locations, coords = c("lat", "long"))
 locations_sf <- st_set_crs(locations_sf, 4326)
 
-basemap <- get_tiles(locations_sf, provider = "CartoDB.Voyager", zoom = 13)
+basemap <- maptiles::get_tiles(locations_sf, provider = "CartoDB.Voyager", zoom = 13)
+
+berlinwall <- st_read("berlinwall.kml")
+
+boundingbox <- locations_sf |>
+  st_bbox(crs = 4326) |> 
+  st_as_sfc()
+
+wall_filtered <- st_crop(berlinwall, boundingbox)
 
 ggplot(data = locations_sf) +
   geom_spatraster_rgb(data = basemap) + 
   geom_sf(size = 3) + 
-  geom_sf_label(label = locations_sf$Stations, nudge_y = 0.005)
+  geom_sf(data = wall_filtered) + 
+  geom_sf_label(label = locations_sf$Stations, nudge_y = 0.005) + 
+  theme_bw()
