@@ -29,7 +29,17 @@ ggradar(data_thu_nometa, grid.min = 1, grid.mid = 3, grid.max = 5, values.radar 
 ggradar(data_fri_nometa, grid.min = 1, grid.mid = 3, grid.max = 5, values.radar = c("1","3","5"))
 
 
+# location mapping
+locations <- data_thu_trans |>
+  select(Stations, Location) |>
+  separate(Location, into = c("long", "lat"), sep = ",")
 
-# tidy dataset
-# data_tidy <- data_csv |> 
-#   pivot_longer(-Factor, names_to = "Location", values_to = "Value")
+locations_sf <- st_as_sf(locations, coords = c("lat", "long"))
+locations_sf <- st_set_crs(locations_sf, 4326)
+
+basemap <- get_tiles(locations_sf, provider = "CartoDB.Voyager", zoom = 13)
+
+ggplot(data = locations_sf) +
+  geom_spatraster_rgb(data = basemap) + 
+  geom_sf(size = 3) + 
+  geom_sf_label(label = locations_sf$Stations, nudge_y = 0.005)
