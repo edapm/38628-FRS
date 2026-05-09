@@ -69,3 +69,12 @@ ggplot(data = locations_sf) +
   geom_sf(data = wall_filtered) + 
   geom_sf_label(label = locations_sf$Stations, nudge_y = 0.005) + 
   theme_bw()
+
+# metadata tables
+data_thu_meta <- data_thu_trans |> 
+  select(1, 10, 11)
+knitr::kable(data_thu_meta)
+
+data_fri_meta <- data_fri_trans |> 
+  select(1, 6, 7)
+knitr::kable(data_fri_meta)
