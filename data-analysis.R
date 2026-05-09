@@ -28,6 +28,16 @@ data_fri_nometa <- data_fri_trans |>
 ggradar(data_thu_nometa, grid.min = 1, grid.mid = 3, grid.max = 5, values.radar = c("1","3","5"))
 ggradar(data_fri_nometa, grid.min = 1, grid.mid = 3, grid.max = 5, values.radar = c("1","3","5"))
 
+# air qual graphs
+ggplot(data = data_thu_trans, mapping = aes(x = Stations, y = AirQualAvg)) + 
+  geom_col() + 
+  labs(y = "Average Air Quality (PM2.5)") + 
+  theme_bw()
+
+ggplot(data = data_fri_trans, mapping = aes(x = Stations, y = AirQualAvg)) + 
+  geom_col() + 
+  labs(y = "Average Air Quality (PM2.5)") + 
+  theme_bw()
 
 # location mapping
 locations <- data_thu_trans |>
