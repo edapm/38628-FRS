@@ -29,6 +29,12 @@ ggradar(data_thu_nometa, grid.min = 1, grid.mid = 3, grid.max = 5, values.radar 
 ggradar(data_fri_nometa, grid.min = 1, grid.mid = 3, grid.max = 5, values.radar = c("1","3","5"))
 
 # air qual graphs
+data_thu_trans <- data_thu_trans |>
+  mutate_at(9, as.double)
+
+data_fri_trans <- data_fri_trans |>
+  mutate_at(5, as.double)
+
 ggplot(data = data_thu_trans, mapping = aes(x = Stations, y = AirQualAvg)) + 
   geom_col() + 
   labs(y = "Average Air Quality (PM2.5)") + 
